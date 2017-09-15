@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.CartItemMapper" >
+	
+	<sql id="usernameOrPassword">
+		<if test="username!=null">
+			username=#{username}
+		</if>
+		<if test="password!=null">
+			and password=#{password}
+		</if>
+	</sql>
+	
+	<resultMap type="com.shop.domain.CartItemCustom" id="userCart">
+		<id property="cid" column="cid" />
+		<result property="pid" column="pid" />
+		<result property="quantity" column="quantity"/>
+		<result property="uid" column="uid"/>
+		<association property="items" javaType="com.shop.domain.ItemCustom">
+			<id property="id" column="uid" />
+			<result property="name" column="name"/>
+			<result property="price" column="price"/>
+			<result property="detail" column="detail"/>
+			<result property="pic" column="pic"/>
+			<result property="createtime" column="createtime"/>
+		</association>
+	</resultMap>
+	
+	
+	<insert id="addToCart" parameterType="com.shop.domain.CartItemCustom">
+		insert into cartitem (cid, quantity, pid, uid)
+	    values (#{cid,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER})
+	</insert>
+	
+	<select id="findByPid" parameterType="java.lang.Integer" resultType="com.shop.domain.CartItemCustom">
+		select * from cartitem where pid = #{pid}
+	</select>
+	
+	<update id="updateCartItem" parameterType="com.shop.domain.CartItemCustom">
+		update cartitem set quantity = #{quantity}, pid = #{pid}, uid = #{uid} where cid = #{cid}
+	</update>
+	
+	<select id="findCartByUid" parameterType="java.lang.Integer" resultMap="userCart">
+		select
+		cartitem.*,
+		items.id items_id,
+		items.name,
+		items.price,
+		items.detail,
+		items.pic,
+		items.createtime
+		from
+		cartitem,
+		items
+		where
+		items.id = cartitem.pid
+		and 
+		cartitem.uid = #{id}
+		order by cartitem.cid desc
+	</select>
+	
+	<select id="findCartByCid" parameterType="Object[]" resultMap="userCart">
+		select
+		cartitem.*,
+		items.id items_id,
+		items.name,
+		items.price,
+		items.detail,
+		items.pic,
+		items.createtime
+		from
+		cartitem,
+		items
+		<where>
+			<if test="array!=null">
+				<foreach collection="array" index="index" item="item" open="and cid in(" separator="," close=")">
+					#{item}
+				
+				</foreach>
+			</if>
+			and items.id = cartitem.pid
+		</where>
+		order by cartitem.cid desc
+	</select>
+	
+	<delete id="deleteByCid" parameterType="java.lang.Integer">
+		delete from cartitem where cid = #{cid} 
+	</delete>
+	
+</mapper>
