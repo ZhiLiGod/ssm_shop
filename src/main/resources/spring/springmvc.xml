@@ -72,7 +72,7 @@
 		<!-- 全局异常处理器
 		只要实现HandlerExceptionResolver接口就是全局异常处理器
 		 -->
-		<!-- <bean class="cn.itcast.ssm.exception.CustomExceptionResolver"></bean> -->
+		<bean class="com.shop.exception.CustomExceptionResolver"></bean>
 		
 		
 		
@@ -86,7 +86,12 @@
 		</bean>
 		
 		<!--拦截器 -->
-
+		<mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<bean class="com.shop.interceptor.LoginInterceptor"></bean>
+			</mvc:interceptor>
+		</mvc:interceptors>
 		
 		
 		<!-- 试图解析器 -->

@@ -13,6 +13,20 @@ public class Orders {
 
     private String note;
 
+    private String address;
+
+    private String country;
+
+    private String city;
+
+    private String phone;
+
+    private Integer status;
+
+    private Float total;
+
+    private String sendname;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +65,61 @@ public class Orders {
 
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Float getTotal() {
+        return total;
+    }
+
+    public void setTotal(Float total) {
+        this.total = total;
+    }
+
+    public String getSendname() {
+        return sendname;
+    }
+
+    public void setSendname(String sendname) {
+        this.sendname = sendname == null ? null : sendname.trim();
     }
 }

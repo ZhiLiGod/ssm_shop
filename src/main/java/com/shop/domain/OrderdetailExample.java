@@ -343,6 +343,66 @@ public class OrderdetailExample {
             addCriterion("items_num not between", value1, value2, "itemsNum");
             return (Criteria) this;
         }
+
+        public Criteria andSubtotalIsNull() {
+            addCriterion("subtotal is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalIsNotNull() {
+            addCriterion("subtotal is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalEqualTo(Float value) {
+            addCriterion("subtotal =", value, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalNotEqualTo(Float value) {
+            addCriterion("subtotal <>", value, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalGreaterThan(Float value) {
+            addCriterion("subtotal >", value, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalGreaterThanOrEqualTo(Float value) {
+            addCriterion("subtotal >=", value, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalLessThan(Float value) {
+            addCriterion("subtotal <", value, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalLessThanOrEqualTo(Float value) {
+            addCriterion("subtotal <=", value, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalIn(List<Float> values) {
+            addCriterion("subtotal in", values, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalNotIn(List<Float> values) {
+            addCriterion("subtotal not in", values, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalBetween(Float value1, Float value2) {
+            addCriterion("subtotal between", value1, value2, "subtotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubtotalNotBetween(Float value1, Float value2) {
+            addCriterion("subtotal not between", value1, value2, "subtotal");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

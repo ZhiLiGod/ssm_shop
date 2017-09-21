@@ -7,6 +7,13 @@
     <result column="number" property="number" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="total" property="total" jdbcType="REAL" />
+    <result column="sendname" property="sendname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, number, createtime, note
+    id, user_id, number, createtime, note, address, country, city, phone, status, total, 
+    sendname
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shop.domain.OrdersExample" >
     select
@@ -100,10 +108,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shop.domain.Orders" >
+  	<selectKey keyProperty='id' resultType='int' order='AFTER'  >  
+        select LAST_INSERT_ID();  
+    </selectKey> 
     insert into orders (id, user_id, number, 
-      createtime, note)
+      createtime, note, address, 
+      country, city, phone, 
+      status, total, sendname
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR})
+      #{createtime,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{total,jdbcType=REAL}, #{sendname,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shop.domain.Orders" >
     insert into orders
@@ -123,6 +140,27 @@
       <if test="note != null" >
         note,
       </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="sendname != null" >
+        sendname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -139,6 +177,27 @@
       </if>
       <if test="note != null" >
         #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=REAL},
+      </if>
+      <if test="sendname != null" >
+        #{sendname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +225,27 @@
       <if test="record.note != null" >
         note = #{record.note,jdbcType=VARCHAR},
       </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null" >
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.total != null" >
+        total = #{record.total,jdbcType=REAL},
+      </if>
+      <if test="record.sendname != null" >
+        sendname = #{record.sendname,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +257,14 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       number = #{record.number,jdbcType=VARCHAR},
       createtime = #{record.createtime,jdbcType=TIMESTAMP},
-      note = #{record.note,jdbcType=VARCHAR}
+      note = #{record.note,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      country = #{record.country,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      total = #{record.total,jdbcType=REAL},
+      sendname = #{record.sendname,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +284,27 @@
       <if test="note != null" >
         note = #{note,jdbcType=VARCHAR},
       </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=REAL},
+      </if>
+      <if test="sendname != null" >
+        sendname = #{sendname,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +313,14 @@
     set user_id = #{userId,jdbcType=INTEGER},
       number = #{number,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=TIMESTAMP},
-      note = #{note,jdbcType=VARCHAR}
+      note = #{note,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      total = #{total,jdbcType=REAL},
+      sendname = #{sendname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

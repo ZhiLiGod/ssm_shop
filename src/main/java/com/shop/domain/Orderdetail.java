@@ -6,8 +6,10 @@ public class Orderdetail {
     private Integer ordersId;
 
     private Integer itemsId;
-
+    
     private Integer itemsNum;
+    
+    private Float subtotal;
 
     public Integer getId() {
         return id;
@@ -39,5 +41,13 @@ public class Orderdetail {
 
     public void setItemsNum(Integer itemsNum) {
         this.itemsNum = itemsNum;
+    }
+
+    public Float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Float subtotal) {
+        this.subtotal = subtotal;
     }
 }

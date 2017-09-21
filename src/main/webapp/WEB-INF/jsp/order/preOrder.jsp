@@ -13,6 +13,9 @@
     <!-- <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.5.1.js"></script> -->
     <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/round.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/input-spinner.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/input-spinner.css" type="text/css"></link>
+    
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" type="text/css"></link>
     
     <script type="text/javascript">
@@ -39,32 +42,34 @@
             $('#imageCarousel').carousel();
         });
         //set all items
-		function setItemCheckBox(bool){
-			$(":checkbox[name=checkboxBtn]").prop("checked", bool);
-		}
+		//function setItemCheckBox(bool){
+		//	$(":checkbox[name=checkboxBtn]").prop("checked", bool);
+		//}
         
         
         //measure subtotal
         function showTotal(){
+        	
 			/*
-			1.获取所有被勾选的条目 复选框 循环便利之	
+				1.获取所有被勾选的条目 复选框 循环便利之	
 			*/
 			
 			var total = 0;
-			$("input[name = checkboxBtn]:checked").each(function(){
+			$("input[name = itemPic]").each(function(){
+				
 				var id = $(this).val();
+				
 				var text = $("#" + id + "subtotal").text();
 				total += Number(text);
 			});
 			//alert(total);
-			$("#count").text($("input[name = checkboxBtn]:checked").size());
+			$("#count").text($("input[name = itemPic]").size());
 			$("#total").text(round(total,2));//round（）把 total 保留2 位小数
 			//alert(total);
 		}
         
 
-        function go(){
-        	//alert("哈哈");
+       /* function go(){
         	var all = $(":checkbox[name = checkboxBtn]").size();
         	var selected = $(":checkbox[name = checkboxBtn]:checked").size();
         	if(all == selected){
@@ -78,24 +83,44 @@
         		setJieSuan(true);
         	}
         	showTotal();
-        }
+        }*/
         
         function setJieSuan(bool){
        	 if(bool) {
        			$("#jiesuan").removeClass("btn disabled btn-block").addClass("btn btn-primary btn-block");
-       			//$("#jiesuan").unbind("click");//撤消当前元素止所有click事件
        		} else {
        			$("#jiesuan").removeClass("btn btn-primary btn-block").addClass("btn disabled btn-block");
-       			//$("#jiesuan").click(function() {return false;});
        		}	
        }
+        
+       $(".add").click(function(){
+    	   var id = $(this).attr("id").substring(0, 32);
+    	   alert(id);
+       });
+
+        
+        
+        function sendUpdateQuantity(id, quantity){
+        	
+        	id = Number(id);
+        	$.ajax({
+        		type:"post",
+        		url:"${pageContext.request.contextPath}/changeQuantity",
+        		contentType:"application/json;charset=utf-8",
+        		data:JSON.stringify({cid:id, quantity:quantity}),
+        		success:function(data){
+        			alert(data);
+        		}
+        	});
+        }
+        
     </script>
 </head>
 <body data-spy="scroll" data-target="#mainNavbar" data-offset="10">
 <%@include file="../top.jsp" %>
 
 <div class="modal-body">
-    <form class="form-horizontal">
+    <form class="form-horizontal" action="${pageContext.request.contextPath}/order" method="post">
     <div class="container" style="margin-top: 20px;">
         <div class="col-md-6 col-sm-6 col-lg-6">
             <h2 class="page-header">Items</h2>
@@ -110,9 +135,10 @@
                 </thead>
                 <tbody>
                 	<c:forEach items="${clist }" var="c">
-                		<tr>
+                		<tr >
                         <td>
-                            <img src="${pageContext.request.contextPath}/img/${c.items.pic}" class="img-responsive">
+                        	<input type="hidden" name="itemPic" value="${c.cid }">	
+                            <img  name="" src="${pageContext.request.contextPath}/img/${c.items.pic}" class="img-responsive">
                         </td>
                         <td>
                             <ul class="list-unstyled">
@@ -121,13 +147,21 @@
                                 <li class="text-muted">${c.items.detail}</li>
                             </ul>
                         </td>
-                        <td><font color="red"><b>€${c.total}</b></font></td>
+                        <td><font color="red"><span>€</span><span id="${c.cid }subtotal"><b>${c.total}</b></span></font></td>
                         <td>
-                            <select name="quantity">
+                        	<input type="hidden" name="ssss" value="${c.cid }">
+                            <!-- <select name="quantity" onchange="changeQuantity()" id="selectId"> 
+                          
                                 <c:forEach begin="1" end="10" var="i">
-                                	<option <c:if test="${c.quantity == i }">selected="selected"</c:if>>${i}</option>
+                                	
+                                	<option id="${c.cid }opId" value="${i }" <c:if test="${c.quantity == i }">selected="selected"</c:if>>
+                                		${i}
+                                	</option>
                                 </c:forEach>
-                            </select>
+                            </select> -->
+                         	&nbsp;&nbsp;&nbsp;
+                            &nbsp;
+                            ${c.quantity }
                         </td>
                     	</tr>
                 	</c:forEach>
@@ -136,7 +170,7 @@
             </table>
             <div class="text-right">
                 <hr/>
-                <h3><b>Total: (10 Items) <font color="red">€12345</font></b></h3>
+                <h3><b>Total: (<span id="count"></span> Items) <font color="red">€<span id="total"></span></font></b></h3>
             </div>
         </div>
 
@@ -149,41 +183,38 @@
             <div class="col-md-11 ">
                 <div class="form-group">
                     <label class="control-label">Full name:</label>
-                    <input class="form-control" >
+                    <input class="form-control"  name="sendname">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Address:</label>
-                    <input class="form-control" >
+                    <input class="form-control" name=address>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Town/City:</label>
-                    <input class="form-control" >
+                    <input class="form-control" name="city">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Country:</label>
-                    <select class="form-control">
+                    <select class="form-control" name="country">
                         <option>Select country</option>
-                        <option>Ireland</option>
-                        <option>UK</option>
-                        <option>Italy</option>
-                        <option>Spain</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="UK">UK</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Spain">Spain</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Phone number:</label>
-                    <input class="form-control" >
+                    <input class="form-control" name="phone">
                 </div>
-
                 <div class="form-group">
                     <hr/>
                     <div class="pull-right">
                         <input type="submit" class="btn btn-primary" value="Continue">
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
     </form>
 </div>

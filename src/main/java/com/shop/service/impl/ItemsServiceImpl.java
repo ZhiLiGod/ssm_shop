@@ -55,7 +55,9 @@ public class ItemsServiceImpl implements ItemsService{
 		pageSize = pageSize == null ? 10:pageSize;
 		PageHelper.startPage(pageNo, pageSize);
 		List<ItemCustom> list = itemsMapperCustom.searchItemByKeyword(itemCustom);
+		//System.out.println(list.size());
 		PageInfo<ItemCustom> page = new PageInfo<ItemCustom>(list);
+		//System.out.println(page.getSize());
 		return page;
 	}
 

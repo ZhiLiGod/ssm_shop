@@ -32,8 +32,8 @@
 	    values (#{cid,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER})
 	</insert>
 	
-	<select id="findByPid" parameterType="java.lang.Integer" resultType="com.shop.domain.CartItemCustom">
-		select * from cartitem where pid = #{pid}
+	<select id="findByPid" parameterType="com.shop.domain.CartItemCustom" resultType="com.shop.domain.CartItemCustom">
+		select * from cartitem where pid = #{pid} and uid=#{uid}
 	</select>
 	
 	<update id="updateCartItem" parameterType="com.shop.domain.CartItemCustom">
@@ -82,6 +82,18 @@
 		</where>
 		order by cartitem.cid desc
 	</select>
+	
+	<delete id="deleteByCidArray" parameterType="Object[]">
+		delete from cartitem
+		<where>
+			<if test="array!=null">
+				<foreach collection="array" index="index" item="item" open="and cid in (" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</delete>
+	
 	
 	<delete id="deleteByCid" parameterType="java.lang.Integer">
 		delete from cartitem where cid = #{cid} 

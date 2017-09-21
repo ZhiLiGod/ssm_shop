@@ -20,6 +20,11 @@
 		<bean id="userService" class="com.shop.service.impl.UserServiceImpl"/>
 		
 		<!-- 购物车 -->
-		<bean id="cartItemService" class="com.shop.service.impl.CartItemServiceImpl"></bean>
+		<bean id="cartItemService" class="com.shop.service.impl.CartItemServiceImpl" />
 		
+		<!-- Order -->
+		<bean id="orderService" class="com.shop.service.impl.OrderServiceImpl"/>
+		
+		<!-- orderdetail -->
+		<bean id="orderdetailService" class="com.shop.service.impl.OrderdetailServiceImpl" />
 </beans>

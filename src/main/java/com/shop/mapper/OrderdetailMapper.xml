@@ -6,6 +6,7 @@
     <result column="orders_id" property="ordersId" jdbcType="INTEGER" />
     <result column="items_id" property="itemsId" jdbcType="INTEGER" />
     <result column="items_num" property="itemsNum" jdbcType="INTEGER" />
+    <result column="subtotal" property="subtotal" jdbcType="REAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, orders_id, items_id, items_num
+    id, orders_id, items_id, items_num, subtotal
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shop.domain.OrderdetailExample" >
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="com.shop.domain.Orderdetail" >
     insert into orderdetail (id, orders_id, items_id, 
-      items_num)
+      items_num, subtotal)
     values (#{id,jdbcType=INTEGER}, #{ordersId,jdbcType=INTEGER}, #{itemsId,jdbcType=INTEGER}, 
-      #{itemsNum,jdbcType=INTEGER})
+      #{itemsNum,jdbcType=INTEGER}, #{subtotal,jdbcType=REAL})
   </insert>
   <insert id="insertSelective" parameterType="com.shop.domain.Orderdetail" >
     insert into orderdetail
@@ -119,6 +120,9 @@
       <if test="itemsNum != null" >
         items_num,
       </if>
+      <if test="subtotal != null" >
+        subtotal,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -132,6 +136,9 @@
       </if>
       <if test="itemsNum != null" >
         #{itemsNum,jdbcType=INTEGER},
+      </if>
+      <if test="subtotal != null" >
+        #{subtotal,jdbcType=REAL},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.itemsNum != null" >
         items_num = #{record.itemsNum,jdbcType=INTEGER},
       </if>
+      <if test="record.subtotal != null" >
+        subtotal = #{record.subtotal,jdbcType=REAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       orders_id = #{record.ordersId,jdbcType=INTEGER},
       items_id = #{record.itemsId,jdbcType=INTEGER},
-      items_num = #{record.itemsNum,jdbcType=INTEGER}
+      items_num = #{record.itemsNum,jdbcType=INTEGER},
+      subtotal = #{record.subtotal,jdbcType=REAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="itemsNum != null" >
         items_num = #{itemsNum,jdbcType=INTEGER},
       </if>
+      <if test="subtotal != null" >
+        subtotal = #{subtotal,jdbcType=REAL},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -190,7 +204,8 @@
     update orderdetail
     set orders_id = #{ordersId,jdbcType=INTEGER},
       items_id = #{itemsId,jdbcType=INTEGER},
-      items_num = #{itemsNum,jdbcType=INTEGER}
+      items_num = #{itemsNum,jdbcType=INTEGER},
+      subtotal = #{subtotal,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

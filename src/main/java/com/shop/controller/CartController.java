@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.shop.domain.Cart;
@@ -32,19 +34,27 @@ public class CartController {
 	
 	@RequestMapping("/addToCart/{pageNo}")
 	public String addToCart(Model model, Integer id, Integer quantity, HttpSession session, @PathVariable("pageNo") Integer pageNo) throws Exception{
+		//System.out.println(id);
 		String username = (String) session.getAttribute("username");
 		CartItemCustom cartItem = new CartItemCustom();
-		CartItemCustom _cartItem = cartItemService.findByPid(id);
+		CartItemCustom cartItem1 = new CartItemCustom();
 		Cart cart = new Cart();
 		float subtotal = 0;	
 		if(username != null && username != ""){
+			//System.out.println("进来了");
 			int uid = userService.findUid(username);
+			cartItem1.setPid(id);
+			cartItem1.setUid(uid);
+			CartItemCustom _cartItem = cartItemService.findByPid(cartItem1);
+			//System.out.println(uid);
 			if(_cartItem != null){
+				//System.out.println("存在");
 				int _quantity = _cartItem.getQuantity();
 				_quantity += quantity;
 				_cartItem.setQuantity(_quantity);
 				cartItemService.updateCartItem(_cartItem);
 			}else{		
+				//System.out.println("哈哈");
 				cartItem.setPid(id);
 				cartItem.setUid(uid);
 				cartItem.setQuantity(quantity);
@@ -87,8 +97,14 @@ public class CartController {
 	@RequestMapping("deleteCartItem/{id}")
 	public String deleteCartItem(@PathVariable("id") Integer id) throws Exception{
 		cartItemService.deleteByCid(id);
-		return "redirect:/myCart";
+		return "redirect:/myCart/1";
 	}
 	
+	@RequestMapping("changeQuantity")
+	public @ResponseBody CartItemCustom changeQuantity(@RequestBody CartItemCustom cartItemCustom) throws Exception{
+		System.out.println(cartItemCustom.getItems().getName() + " "+  cartItemCustom.getQuantity()+ " " + cartItemCustom.getCid());
+		
+		return cartItemCustom;
+	}
 	
 }

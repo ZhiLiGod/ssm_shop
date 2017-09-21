@@ -1,6 +1,7 @@
 package com.shop.domain;
 
 public class CartItemCustom extends CartItem {
+	
 	private ItemCustom items;
 	private float total;
 	

@@ -10,5 +10,5 @@ public interface UserService {
 	public Integer findUid(String username) throws Exception;
 	
 	
-	PageInfo<UserCustom> queryByPage(String password,Integer pageNo,Integer pageSize);
+	public PageInfo<UserCustom> queryByPage(String password,Integer pageNo,Integer pageSize);
 }

@@ -22,9 +22,9 @@ public class CartItemServiceImpl implements CartItemService {
 	}
 
 	@Override
-	public CartItemCustom findByPid(Integer pid) throws Exception {
+	public CartItemCustom findByPid(CartItemCustom cartItemCustom) throws Exception {
 		// TODO Auto-generated method stub
-		return cartItemMapper.findByPid(pid);
+		return cartItemMapper.findByPid(cartItemCustom);
 	}
 
 	@Override
@@ -59,6 +59,12 @@ public class CartItemServiceImpl implements CartItemService {
 	public List<CartItemCustom> findCartByCid(Object[] cid) throws Exception {
 		// TODO Auto-generated method stub
 		return cartItemMapper.findCartByCid(cid);
+	}
+
+	@Override
+	public void deleteByCidArray(Integer[] cid) throws Exception {
+		cartItemMapper.deleteByCidArray(cid);
+		
 	}
 	
 }
